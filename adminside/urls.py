@@ -1,10 +1,12 @@
 # urls.py
 from django.urls import path,include
-from .views import TradeCreateView,TradeDetailView,PremiumCreate,PremiumEdit,UserListView,UserCountView,TradeStatsView
+from .views import TradeCreateView,TradeDetailView,PremiumCreate,PremiumEdit,UserListView,UserCountView,TradeStatsView,TradeUpdateView
 
 urlpatterns = [
     ######trades######
     path('create-trade/', TradeCreateView.as_view(), name='create-trade'),
+    path('update-trade/<int:trade_id>/', TradeUpdateView.as_view()),
+
     path('trades/', TradeDetailView.as_view(), name='trade-list'),
     path('trade-counts/', TradeStatsView.as_view(), name='trade-counts'),
     

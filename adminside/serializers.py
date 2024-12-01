@@ -167,3 +167,21 @@ class PremiumSerializer(serializers.ModelSerializer):
         if Premium.objects.filter(premium_period=value).exists():
             raise serializers.ValidationError(f"The premium period '{value}' already exists.")
         return value
+
+
+
+# update trade history 
+
+class TradeUpdateSerializer(serializers.Serializer):
+    buy = serializers.DecimalField(max_digits=10, decimal_places=2)
+    target = serializers.DecimalField(max_digits=10, decimal_places=2)
+    sl = serializers.DecimalField(max_digits=10, decimal_places=2)
+    
+    def update_trade_history(self, trade):
+        TradeHistory.objects.create(
+            trade=trade,
+            buy=self.validated_data['buy'],
+            target=self.validated_data['target'],
+            sl=self.validated_data['sl']
+        )
+        return trade

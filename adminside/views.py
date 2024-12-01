@@ -3,11 +3,11 @@ from rest_framework import status,generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Trade,Premium
-from .serializers import TradeSerializer,TradeListSerializer,PremiumSerializer
+from .serializers import TradeSerializer,TradeListSerializer,PremiumSerializer,TradeUpdateSerializer
 from rest_framework.permissions import AllowAny
 from user.views import User
 from user.serializers import UserSerializer
-
+from django.shortcuts import get_object_or_404
 
 class TradeCreateView(APIView):
     permission_classes = [AllowAny]
@@ -25,7 +25,26 @@ class TradeCreateView(APIView):
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class TradeUpdateView(APIView):
+    permission_classes = [AllowAny]
 
+    def post(self, request, trade_id):
+        trade = get_object_or_404(Trade, id=trade_id)
+        serializer = TradeUpdateSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            serializer.update_trade_history(trade)
+            return Response({
+                "message": "Trade history updated successfully",
+                "trade_id": trade.id,
+                "new_history": {
+                    "buy": serializer.validated_data['buy'],
+                    "target": serializer.validated_data['target'],
+                    "sl": serializer.validated_data['sl'],
+                }
+            }, status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class TradeDetailView(APIView):
     permission_classes = [AllowAny]
