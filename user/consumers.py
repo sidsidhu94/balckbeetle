@@ -112,6 +112,7 @@ class TradeConsumer(AsyncWebsocketConsumer):
 
     # Receive message from group
     async def send_trade_notification(self, event):
+        
         trade_data = event['trade']  # Use 'trade' key to get serialized data
         print("Received trade data:", trade_data)  # Log the received data for debugging
         

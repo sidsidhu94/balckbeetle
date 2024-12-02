@@ -50,7 +50,7 @@ class TradeDetailView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
-        trade = Trade.objects.all()
+        trade = Trade.objects.all().order_by('created_at')
         serializer = TradeListSerializer(trade,many=True)
         return Response(serializer.data)
     

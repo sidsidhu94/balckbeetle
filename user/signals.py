@@ -39,8 +39,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
-from adminside.models import Trade
-from adminside.serializers import TradeSerializer
+from adminside.models import Trade,TradeHistory
+from adminside.serializers import TradeSerializer,TradeHistory
 from .models import User
 
 @receiver(post_save, sender=Trade)
@@ -71,5 +71,36 @@ def notify_user_of_trade_creation(sender, instance, created, **kwargs):
         )
         print("Data sent to WebSocket")
 
+
+
+
+
+@receiver(post_save, sender=TradeHistory)
+def notify_user_of_trade_history_creation(sender, instance, created, **kwargs):
+    if created:
+        print("Trade History created, sending WebSocket notification.")
+        
+        # Serialize the trade data
+        trade_serialized_data = TradeSerializer(instance.trade).data
+
+        # Get the creation time of the TradeHistory object
+        trade_history_creation_time = instance.changed_at  # Assuming 'changed_at' is the creation time
+        
+        # Get the channel layer for sending WebSocket messages
+        channel_layer = get_channel_layer()
+
+        # Define the user group for WebSocket communication
+        trades_group = f"trades_group"  # Adjust this if you want to target specific users
+
+        # Send the serialized trade data and trade history creation time over WebSocket using async_to_sync
+        async_to_sync(channel_layer.group_send)(
+            trades_group,
+            {
+                "type": "send_trade_notification",
+                "trade": trade_serialized_data,
+                "trade_history_creation_time": trade_history_creation_time,  # Include creation time of TradeHistory
+            }
+        )
+        print("Trade data and creation time sent to WebSocket")
 
 

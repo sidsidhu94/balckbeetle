@@ -44,6 +44,7 @@ class Trade(models.Model):
     
     @classmethod
     def get_expired_trades(cls):
+        
         return cls.objects.filter(expiry_date__lt=timezone.now().date()).count()
 
 class TradeHistory(models.Model):

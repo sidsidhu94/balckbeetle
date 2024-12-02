@@ -120,15 +120,15 @@ class TradeListSerializer(serializers.ModelSerializer):
                   'buy', 'target', 'sl', 'bull_scenario', 'bear_scenario', 'status', 'prediction','actual']
 
     def get_buy(self, obj):
-        trade_history = obj.history.first()  
+        trade_history = obj.history.last()  
         return trade_history.buy if trade_history else None
 
     def get_target(self, obj):
-        trade_history = obj.history.first()
+        trade_history = obj.history.last()
         return trade_history.target if trade_history else None
 
     def get_sl(self, obj):
-        trade_history = obj.history.first()
+        trade_history = obj.history.last()
         return trade_history.sl if trade_history else None
 
     def get_bull_scenario(self, obj):
