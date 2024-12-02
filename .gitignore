@@ -1,0 +1,63 @@
+# Python Bytecode Files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Django stuff:
+*.log
+*.pot
+*.py[cod]
+*~.nib
+db.sqlite3
+media
+staticfiles
+
+# Virtualenv
+venv/
+.env/
+.env.*
+venv.bak/
+venv3/
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.DS_Store
+
+# Python Distribution / Packaging
+.Python
+build/
+dist/
+*.egg-info/
+
+# mypy
+.mypy_cache/
+
+# Pytest
+.cache/
+
+# Coverage
+.coverage
+coverage.xml
+*.coveragerc
+nosetests.xml
+test-results/
+
+# Django Specific: Ignore the migration files in apps
+*/migrations/*
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Others
+*.sqlite3
+*.log
+*.pot
+*.py[cod]
