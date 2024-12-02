@@ -3,7 +3,7 @@ from rest_framework import status,generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Trade,Premium
-from .serializers import TradeSerializer,TradeListSerializer,PremiumSerializer,TradeUpdateSerializer
+from .serializers import TradeSerializer,TradeListSerializer,PremiumSerializer,TradeUpdateSerializer,TradeDetailsSerializer
 from rest_framework.permissions import AllowAny
 from user.views import User
 from user.serializers import UserSerializer
@@ -54,6 +54,15 @@ class TradeDetailView(APIView):
         serializer = TradeListSerializer(trade,many=True)
         return Response(serializer.data)
     
+
+    
+class TradeDetailedView(APIView):
+    permission_classes = [AllowAny]  # Or any other permission class you prefer
+
+    def get(self, request, trade_id):
+        trade = get_object_or_404(Trade, id=trade_id)
+        serializer = TradeDetailsSerializer(trade)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class PremiumCreate(APIView):

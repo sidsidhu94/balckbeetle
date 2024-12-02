@@ -8,6 +8,7 @@ urlpatterns = [
     path('update-trade/<int:trade_id>/', TradeUpdateView.as_view()),
 
     path('trades/', TradeDetailView.as_view(), name='trade-list'),
+    path('trade/<int:trade_id>/', TradeDetailedView.as_view(), name='trade_detail'),
     path('trade-counts/', TradeStatsView.as_view(), name='trade-counts'),
     
 
