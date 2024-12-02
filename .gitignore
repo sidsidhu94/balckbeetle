@@ -61,3 +61,4 @@ celerybeat.pid
 *.log
 *.pot
 *.py[cod]
+"dsds"
