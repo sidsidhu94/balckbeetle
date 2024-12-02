@@ -185,3 +185,25 @@ class TradeUpdateSerializer(serializers.Serializer):
             sl=self.validated_data['sl']
         )
         return trade
+
+
+class TradeHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TradeHistory
+        fields = ['buy', 'target', 'sl', 'changed_at']
+
+class AnalysisSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Analysis
+        fields = ['bull_scenario', 'bear_scenario', 'status']
+
+
+class TradeDetailsSerializer(serializers.ModelSerializer):
+    history = TradeHistorySerializer(many=True, read_only=True)
+    analysis = AnalysisSerializer(many=True, read_only=True)
+    insights = InsightSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = Trade
+        fields = ['id', 'stock_index', 'company_name', 'segment', 'expiry_date', 'trade_type', 
+                  'created_at', 'history', 'analysis', 'insights']
