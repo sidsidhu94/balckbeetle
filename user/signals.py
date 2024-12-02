@@ -49,6 +49,7 @@ def notify_user_of_trade_creation(sender, instance, created, **kwargs):
     print("here just for testing purpose")
     if created :
         print("just check the instance")
+        
         # Serialize the trade data
         serialized_data = TradeSerializer(instance).data
         
